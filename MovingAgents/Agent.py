@@ -12,15 +12,15 @@ class Agent(object):
     def __init__(self, position, size, speed):
         self.position = position
         self.size = size
-        self.center = (position.x + size/2, position.y + size/2)
+        self.calcCenter()
         self.speed = speed
-        self.color = Constants.DEFAULT_COLOR;
+        self.color = Constants.DEFAULT_COLOR
 
     def __str__(self):
-        return (f"Size is {self.color}\n" 
-                f"Position is {self.position\n"
-                f"Velocity is {self.speed}\n"
-                f"Center is {self.center}")
+        return (f"Size is {self.size}\n"
+                 f"Position is {self.position}\n"
+                 f"Velocity is {self.speed}\n"
+                 f"Center is {self.center}")
 
     
     # Draw Method to draw the players square and also the vector lines
@@ -39,17 +39,13 @@ class Agent(object):
     # Update method used to return a direction vector
     def update(self, other):
 
-        # Create direction vector
-        dir = Vector(0,0)
-
-       
         # Normalize and scale vector
-        dir = dir.normalize()
-        dir = dir.scale(velocity)
+        self.dir = self.dir.normalize()
+        self.dir = self.dir.scale(self.velocity)
 
         # Return scaled direction vector
-        return dir
+        return self.dir
 
     def calcCenter(self):
-        self.center = (position.x + size/2, position.y + size/2)
+        self.center = Vector(self.position.x + self.size/2, self.position.y + self.size/2)
 

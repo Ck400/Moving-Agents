@@ -1,59 +1,37 @@
 import pygame
-import Vector
 import Agent
 
-from pygame.locals import *
-from Vector import *
+from Agent import *
 
 # Player class
 class Player(Agent):
 
     # Called on initilization
-    def __init__(self, center, size):
-        self.center = center 
-        self.size = size
-
-    # Draw Method to draw the players square and also the vector lines
-    def draw(self, dir, screen, leng):
-
-        # Draw new player position
-        self.center =  self.center + dir
-        pygame.draw.rect(screen, (245, 175, 240), pygame.Rect(self.center.x - self.size/2, self.center.y - self.size/2,  self.size, self.size))
-
-        # Only draw vector line when vector is greater than 0
-        if dir.length() != 0:
-            entPt = dir.scale(leng)
-            pygame.draw.line(screen, (100, 5, 135), (self.center.x, self.center.y),
-                                                    ((self.center.x + entPt.x), (self.center.y + entPt.y)), 2)
+    def __init__(self, position, size, speed):
+        super().__init__(position, size, speed)
+        self.color = Constants.PLAYER_COLOR
 
     # Update method used to return a direction vector
-    def update(self, velocity):
+    def update(self, other):
+
+        self.velocity = Constants.PLAYER_MOVESPEED
 
         # Create direction vector
-        dir = Vector(0,0)
+        self.dir = Vector(0,0)
 
-        # Get the keys that the player are pressing and add to the vector accordingly
-        keys = pygame.key.get_pressed()
-      
-        if keys[pygame.K_a]:
+        if len(other) != 0:     
 
-            dir = dir + Vector(-1,0)   
-          
-        if keys[pygame.K_d]:
-          
-            dir = dir + Vector(1,0)   
-         
-        if keys[pygame.K_w]:
+            close = other[0]
+            dist = Vector(self.center - close.center).length
 
-            dir = dir + Vector(0,-1)   
-          
-        if keys[pygame.K_s]:
+            for item in other:
+            
+                if Vector.self.position - item.position < dist :
+                    close = item
+                    dist =  Vector(self.center - close.center).length
 
-            dir = dir + Vector(0,1)   
+                self.dir = self.position - item.position
 
-        # Normalize and scale vector
-        dir = dir.normalize()
-        dir = dir.scale(velocity)
+        super().update(other)
 
-        # Return scaled direction vector
-        return dir
+        return self.dir
