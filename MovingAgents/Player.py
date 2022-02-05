@@ -1,4 +1,3 @@
-import pygame
 import Agent
 
 from Agent import *
@@ -14,7 +13,7 @@ class Player(Agent):
     # Update method used to return a direction vector
     def update(self, other):
 
-        self.velocity = Constants.PLAYER_MOVESPEED
+        self.speed = Constants.PLAYER_MOVESPEED
 
         # Create direction vector
         self.dir = Vector(0,0)
@@ -22,15 +21,15 @@ class Player(Agent):
         if len(other) != 0:     
 
             close = other[0]
-            dist = Vector(self.center - close.center).length
+            dist = (self.center - close.center).length()
 
             for item in other:
             
-                if Vector.self.position - item.position < dist :
+                if (self.center - item.center).length() < dist :
                     close = item
-                    dist =  Vector(self.center - close.center).length
+                    dist =  (self.center - item.center).length()
 
-                self.dir = self.position - item.position
+                self.dir = item.position - self.position
 
         super().update(other)
 

@@ -1,9 +1,11 @@
 import pygame
 import Constants
 import Player
+import Enemy
 
 from pygame.locals import *
 from Player import *
+from Enemy import *
 
 # Initialize pygame
 pygame.init()
@@ -16,6 +18,8 @@ clock = pygame.time.Clock()
 
 enemies = []
 player = Player(Vector(Constants.DISPLAY_WIDTH/2, Constants.DISPLAY_HEIGHT/2), Constants.PLAYER_SIZE, Constants.PLAYER_MOVESPEED)
+enemy = Enemy(Vector(100, 100), Constants.ENEMY_SIZE, Constants.ENEMY_MOVESPEED)
+enemies.append(enemy)
 
 # Main Game Loop
 while quit:
@@ -31,7 +35,7 @@ while quit:
         if event.type == QUIT:
             quit = 0
 
-    print(player)
+    enemy.draw(enemy.update(player), game_display, Constants.MOVE_VECTOR_DIR_LENG)
     player.draw(player.update(enemies), game_display, Constants.MOVE_VECTOR_DIR_LENG)
 
     # Flip display

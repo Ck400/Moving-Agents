@@ -28,6 +28,8 @@ class Agent(object):
 
         # Draw new player position
         self.center =  self.center + dir
+        self.position = self.position + dir
+
         pygame.draw.rect(screen, self.color, pygame.Rect(self.center.x - self.size/2, self.center.y - self.size/2,  self.size, self.size))
 
         # Only draw move vector line when vector is greater than 0
@@ -41,7 +43,7 @@ class Agent(object):
 
         # Normalize and scale vector
         self.dir = self.dir.normalize()
-        self.dir = self.dir.scale(self.velocity)
+        self.dir = self.dir.scale(self.speed)
 
         # Return scaled direction vector
         return self.dir
