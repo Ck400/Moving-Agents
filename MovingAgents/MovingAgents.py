@@ -35,7 +35,9 @@ while quit:
         if event.type == QUIT:
             quit = 0
 
-    enemy.draw(enemy.update(player), game_display, Constants.MOVE_VECTOR_DIR_LENG)
+    for enemy in enemies:
+        enemy.draw(enemy.update(player), game_display, Constants.MOVE_VECTOR_DIR_LENG)
+        
     player.draw(player.update(enemies), game_display, Constants.MOVE_VECTOR_DIR_LENG)
 
     # Flip display

@@ -19,12 +19,14 @@ class Enemy(Agent):
 
         self.speed = Constants.ENEMY_MOVESPEED
 
-        dist = (self.center - player.center).length()
+        dist = self.calcDist(player)
 
         if dist < Constants.ENEMY_RANGE:
             self.dir = self.center - player.center
+            self.focus = player
         else:
             self.dir += Vector(random.uniform(-.1,.1), random.uniform(-.1,.1))
+            self.focus = self
 
         super().update(player)
 

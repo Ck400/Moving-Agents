@@ -15,6 +15,7 @@ class Agent(object):
         self.calcCenter()
         self.speed = speed
         self.color = Constants.DEFAULT_COLOR
+        self.focus = self
 
     def __str__(self):
         return (f"Size is {self.size}\n"
@@ -38,6 +39,10 @@ class Agent(object):
             pygame.draw.line(screen, Constants.MOVE_VECTOR_COLOR, (self.center.x, self.center.y),
                                                                  ((self.center.x + entPt.x), (self.center.y + entPt.y)), 2)
 
+        if self.focus != self:
+            pygame.draw.line(screen, Constants.DIS_VECTOR_COLOR, (self.center.x, self.center.y),
+                                                     ((self.focus.center.x), (self.focus.center.y)), 2)
+
     # Update method used to return a direction vector
     def update(self, other):
 
@@ -50,4 +55,7 @@ class Agent(object):
 
     def calcCenter(self):
         self.center = Vector(self.position.x + self.size/2, self.position.y + self.size/2)
+
+    def calcDist(self, other):
+        return (self.center - other.center).length()
 

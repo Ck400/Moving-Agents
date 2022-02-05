@@ -21,15 +21,23 @@ class Player(Agent):
         if len(other) != 0:     
 
             close = other[0]
-            dist = (self.center - close.center).length()
+            dist = self.calcDist(close)
+            self.focus = close
 
             for item in other:
             
-                if (self.center - item.center).length() < dist :
-                    close = item
-                    dist =  (self.center - item.center).length()
+                iDist = self.calcDist(item)
 
-                self.dir = item.position - self.position
+                if  iDist < dist :
+                    close = item
+                    dist =  iDist
+                    self.focus = item
+
+
+        else:
+             self.focus = self
+
+        self.dir = item.position - self.position
 
         super().update(other)
 
