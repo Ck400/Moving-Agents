@@ -12,7 +12,7 @@ from Enemy import *
 pygame.init()
 
 # Setup variables
-quit = 1
+run = True
 game_display = pygame.display.set_mode((Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT))
 pygame.display.set_caption('Moving Agents')
 clock = pygame.time.Clock()
@@ -25,7 +25,7 @@ for num in range(Constants.ENEMY_COUNT):
     enemies.append(enemy)
 
 # Main Game Loop
-while quit:
+while run:
 
     clock.tick(Constants.FRAME_RATE)
 
@@ -36,7 +36,7 @@ while quit:
     for event in pygame.event.get():
 
         if event.type == QUIT:
-            quit = 0
+            run = False
 
     for enemy in enemies:
         enemy.draw(enemy.update(player), game_display, Constants.MOVE_VECTOR_DIR_LENG)

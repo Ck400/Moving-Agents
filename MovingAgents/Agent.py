@@ -31,7 +31,7 @@ class Agent(object):
         self.center =  self.center + dir
         self.position = self.position + dir
 
-        pygame.draw.rect(screen, self.color, pygame.Rect(self.center.x - self.size/2, self.center.y - self.size/2,  self.size, self.size))
+        pygame.draw.rect(screen, self.color, self.hitbox)
 
         # Only draw move vector line when vector is greater than 0
         if dir.length() != 0:
@@ -39,7 +39,7 @@ class Agent(object):
             pygame.draw.line(screen, Constants.MOVE_VECTOR_COLOR, (self.center.x, self.center.y),
                                                                  ((self.center.x + entPt.x), (self.center.y + entPt.y)), 2)
 
-        if self.focus != self:
+        if self.focus != self and dir.length() != 0:
             pygame.draw.line(screen, self.type, (self.center.x, self.center.y),
                                                      ((self.focus.center.x), (self.focus.center.y)), self.thick)
 
@@ -49,6 +49,7 @@ class Agent(object):
         # Normalize and scale vector
         self.dir = self.dir.normalize()
         self.dir = self.dir.scale(self.speed)
+        self.hitbox = pygame.Rect(self.center.x - self.size/2, self.center.y - self.size/2,  self.size, self.size)
 
         # Return scaled direction vector
         return self.dir
@@ -58,4 +59,7 @@ class Agent(object):
 
     def calcDist(self, other):
         return (self.center - other.center).length()
+
+    def collision(self, hitbox):
+        return pygame.Rect.colliderect(self.hitbox, hitbox)
 

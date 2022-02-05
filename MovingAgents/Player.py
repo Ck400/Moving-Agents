@@ -9,11 +9,16 @@ class Player(Agent):
     def __init__(self, position, size, speed):
         super().__init__(position, size, speed)
         self.color = Constants.PLAYER_COLOR
-
-    def draw(self, dir, screen, leng):
         self.type = Constants.PDIS_VECTOR_COLOR
         self.thick = Constants.PDIS_VECTOR_THICKNESS
+
+    def draw(self, dir, screen, leng):
+
         super().draw(dir, screen, leng)
+        
+        if self.collision(self.focus.hitbox):
+            self.focus.tagged = True
+            self.focus.color = Constants.ENEMY_TCOLOR
 
     # Update method used to return a direction vector
     def update(self, other):
@@ -21,26 +26,22 @@ class Player(Agent):
         self.speed = Constants.PLAYER_MOVESPEED
 
         # Create direction vector
-        self.dir = Vector(0,0)
-        
+        self.dir = Vector(0,0)     
+        self.dist = 99999
 
-        if len(other) != 0:     
-
-            close = other[0]
-            dist = self.calcDist(close)
+        if len(other) != 0:            
 
             for item in other:
-            
-                iDist = self.calcDist(item)
+                if item.tagged == False:
 
-                if  iDist < dist :
-                    close = item
-                    dist =  iDist
-                    self.dir = item.position - self.position
+                    iDist = self.calcDist(item)
 
+                    if  iDist < self.dist:
+                        self.close = item
+                        self.dist =  iDist
 
-                self.focus = close
-
+                        self.dir = item.position - self.position
+                        self.focus = self.close
 
         super().update(other)
 
