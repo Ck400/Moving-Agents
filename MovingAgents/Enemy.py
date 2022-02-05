@@ -12,6 +12,11 @@ class Enemy(Agent):
         self.color = Constants.ENEMY_COLOR
         self.dir = Vector(0,0)
 
+    def draw(self, dir, screen, leng):
+        self.type = Constants.EDIS_VECTOR_COLOR
+        self.thick = Constants.EDIS_VECTOR_THICKNESS
+        super().draw(dir, screen, leng)
+
     # Update method used to return a direction vector
     def update(self, player):
 

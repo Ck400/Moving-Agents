@@ -2,6 +2,7 @@ import pygame
 import Constants
 import Player
 import Enemy
+import random
 
 from pygame.locals import *
 from Player import *
@@ -17,9 +18,11 @@ pygame.display.set_caption('Moving Agents')
 clock = pygame.time.Clock()
 
 enemies = []
-player = Player(Vector(Constants.DISPLAY_WIDTH/2, Constants.DISPLAY_HEIGHT/2), Constants.PLAYER_SIZE, Constants.PLAYER_MOVESPEED)
-enemy = Enemy(Vector(100, 100), Constants.ENEMY_SIZE, Constants.ENEMY_MOVESPEED)
-enemies.append(enemy)
+player = Player(Vector(Constants.DISPLAY_WIDTH/2 - Constants.PLAYER_SIZE/2, Constants.DISPLAY_HEIGHT/2 - Constants.PLAYER_SIZE/2), Constants.PLAYER_SIZE, Constants.PLAYER_MOVESPEED)
+
+for num in range(Constants.ENEMY_COUNT):
+    enemy = Enemy(Vector(random.randrange(0, Constants.DISPLAY_WIDTH - Constants.ENEMY_SIZE/2), random.randrange(0, Constants.DISPLAY_HEIGHT - Constants.ENEMY_SIZE/2)), Constants.ENEMY_SIZE, Constants.ENEMY_MOVESPEED)
+    enemies.append(enemy)
 
 # Main Game Loop
 while quit:

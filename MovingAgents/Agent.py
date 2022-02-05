@@ -40,8 +40,8 @@ class Agent(object):
                                                                  ((self.center.x + entPt.x), (self.center.y + entPt.y)), 2)
 
         if self.focus != self:
-            pygame.draw.line(screen, Constants.DIS_VECTOR_COLOR, (self.center.x, self.center.y),
-                                                     ((self.focus.center.x), (self.focus.center.y)), 2)
+            pygame.draw.line(screen, self.type, (self.center.x, self.center.y),
+                                                     ((self.focus.center.x), (self.focus.center.y)), self.thick)
 
     # Update method used to return a direction vector
     def update(self, other):

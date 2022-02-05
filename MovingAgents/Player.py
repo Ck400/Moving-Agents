@@ -10,6 +10,11 @@ class Player(Agent):
         super().__init__(position, size, speed)
         self.color = Constants.PLAYER_COLOR
 
+    def draw(self, dir, screen, leng):
+        self.type = Constants.PDIS_VECTOR_COLOR
+        self.thick = Constants.PDIS_VECTOR_THICKNESS
+        super().draw(dir, screen, leng)
+
     # Update method used to return a direction vector
     def update(self, other):
 
@@ -17,12 +22,12 @@ class Player(Agent):
 
         # Create direction vector
         self.dir = Vector(0,0)
+        
 
         if len(other) != 0:     
 
             close = other[0]
             dist = self.calcDist(close)
-            self.focus = close
 
             for item in other:
             
@@ -31,13 +36,11 @@ class Player(Agent):
                 if  iDist < dist :
                     close = item
                     dist =  iDist
-                    self.focus = item
+                    self.dir = item.position - self.position
 
 
-        else:
-             self.focus = self
+                self.focus = close
 
-        self.dir = item.position - self.position
 
         super().update(other)
 
