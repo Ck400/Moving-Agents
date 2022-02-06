@@ -18,7 +18,7 @@ class Player(Agent):
         
         if self.collision(self.focus.hitbox):
             self.focus.tagged = True
-            self.focus.color = Constants.ENEMY_TCOLOR
+            self.focus.tag_timer = Constants.ENEMY_TAG_TIME
 
     # Update method used to return a direction vector
     def update(self, other, worldWidth, worldHeight):

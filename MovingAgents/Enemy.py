@@ -12,12 +12,23 @@ class Enemy(Agent):
         self.color = Constants.ENEMY_COLOR
         self.dir = Vector(0,0)
         self.tagged = False
+        self.tag_timer = 0
         
         self.type = Constants.EDIS_VECTOR_COLOR
         self.thick = Constants.EDIS_VECTOR_THICKNESS
 
     # Update method used to return a direction vector
     def update(self, player, worldWidth, worldHeight):
+
+        if self.tagged == True:
+
+            if self.tag_timer > 0 :
+                self.tag_timer -= 1
+                self.color = Constants.ENEMY_TCOLOR
+
+            else:
+                self.tagged = False
+                self.color = Constants.ENEMY_COLOR
 
         self.speed = Constants.ENEMY_MOVESPEED
 
