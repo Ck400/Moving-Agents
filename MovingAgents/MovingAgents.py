@@ -39,9 +39,9 @@ while run:
             run = False
 
     for enemy in enemies:
-        enemy.draw(enemy.update(player), game_display, Constants.MOVE_VECTOR_DIR_LENG)
+        enemy.draw(enemy.update(player, Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT), game_display, Constants.MOVE_VECTOR_DIR_LENG)
         
-    player.draw(player.update(enemies), game_display, Constants.MOVE_VECTOR_DIR_LENG)
+    player.draw(player.update(enemies, Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT), game_display, Constants.MOVE_VECTOR_DIR_LENG)
 
     # Flip display
     pygame.display.flip()

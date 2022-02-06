@@ -21,7 +21,7 @@ class Player(Agent):
             self.focus.color = Constants.ENEMY_TCOLOR
 
     # Update method used to return a direction vector
-    def update(self, other):
+    def update(self, other, worldWidth, worldHeight):
 
         self.speed = Constants.PLAYER_MOVESPEED
 
@@ -43,6 +43,6 @@ class Player(Agent):
                         self.dir = item.position - self.position
                         self.focus = self.close
 
-        super().update(other)
+        super().update(other, worldWidth, worldHeight)
 
         return self.dir

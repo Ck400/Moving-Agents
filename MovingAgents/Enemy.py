@@ -17,9 +17,7 @@ class Enemy(Agent):
         self.thick = Constants.EDIS_VECTOR_THICKNESS
 
     # Update method used to return a direction vector
-    def update(self, player):
-
-        random.seed();
+    def update(self, player, worldWidth, worldHeight):
 
         self.speed = Constants.ENEMY_MOVESPEED
 
@@ -32,6 +30,6 @@ class Enemy(Agent):
             self.dir += Vector(random.uniform(-.1,.1), random.uniform(-.1,.1))
             self.focus = self
 
-        super().update(player)
+        super().update(player, worldWidth, worldHeight)
 
         return self.dir

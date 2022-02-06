@@ -44,12 +44,18 @@ class Agent(object):
                                                      ((self.focus.center.x), (self.focus.center.y)), self.thick)
 
     # Update method used to return a direction vector
-    def update(self, other):
+    def update(self, other, worldWidth, worldHeight):
 
         # Normalize and scale vector
         self.dir = self.dir.normalize()
         self.dir = self.dir.scale(self.speed)
         self.hitbox = pygame.Rect(self.center.x - self.size/2, self.center.y - self.size/2,  self.size, self.size)
+            
+        if (self.center + self.dir).x > (worldWidth - self.size/2) or (self.center + self.dir).x < 0 + self.size/2:
+            self.dir.x *= -1
+
+        if (self.center + self.dir).y > (worldHeight - self.size/2) or (self.center + self.dir).y < 0 + self.size/2:
+            self.dir.y *= -1
 
         # Return scaled direction vector
         return self.dir
