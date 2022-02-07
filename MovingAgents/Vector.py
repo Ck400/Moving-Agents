@@ -20,7 +20,7 @@ class Vector:
     
     # Dot Product Method
     def dot(self, other):
-        return Vector(self.x * other.x, self.y * other.y)
+        return self.x * other.x + self.y * other.y
 
     # Scale Method
     def scale(self, scale):

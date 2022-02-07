@@ -11,6 +11,8 @@ BACKGROUND_COLOR = (100,149,237)
 PLAYER_MOVESPEED = 1.5
 PLAYER_SIZE = 10
 PLAYER_COLOR = (255, 244, 128)
+
+# Player Distance vectors
 PDIS_VECTOR_COLOR = (255, 64, 102)
 PDIS_VECTOR_THICKNESS = 1
 
@@ -18,10 +20,19 @@ PDIS_VECTOR_THICKNESS = 1
 ENEMY_COUNT = 10
 ENEMY_MOVESPEED = 1
 ENEMY_SIZE = 10
+
+# Enemy Color and tagged color
 ENEMY_COLOR = (0, 255, 60)
 ENEMY_TCOLOR = (1, 74, 20)
+
+# Enemy scared range
 ENEMY_RANGE = 200
-ENEMY_TAG_TIME = 5 * FRAME_RATE
+
+# Timers are all in seconds i.e 1 = 1 second, .5 = half a second
+ENEMY_WANDER_TIMER = FRAME_RATE * .3
+ENEMY_TAG_TIME = FRAME_RATE * 5
+
+# Enemy Distance vectors
 EDIS_VECTOR_COLOR = (0, 0, 0)
 EDIS_VECTOR_THICKNESS = 4
 
