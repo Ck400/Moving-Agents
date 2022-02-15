@@ -1,9 +1,8 @@
 import pygame
-import Vector
 import Constants
 
+from Constants import *
 from pygame.locals import *
-from Vector import *
 
 # Player class
 class Agent(object):
@@ -13,10 +12,13 @@ class Agent(object):
 
         self.position = position
         self.size = size
-        self.calcCenter()
         self.speed = speed
         self.color = Constants.DEFAULT_COLOR
+        self.dir = (0,0)
         self.focus = self
+        self.weight = 1
+        self.updateCenter()
+        self.updateRect()
 
     # Overload string method to print out important agent characteristics
     def __str__(self):
@@ -25,57 +27,69 @@ class Agent(object):
                  f"Velocity is {self.speed}\n"
                  f"Center is {self.center}")
 
+    def updateVelocity(self, velocity):
+        self.velocity = velocity.normalize()
+
+    def updateRect(self):
+        self.hitbox = pygame.Rect(self.center.x - self.size.x/2, self.center.y - self.size.y/2,  self.size.x, self.size.y)
+
+    # Calculate and set the objects center
+    def updateCenter(self):
+        self.center = Vector(self.position.x + self.size.x/2, self.position.y + self.size.y/2)
+
     
-    # Draw Method to draw the agent
-    def draw(self, dir, screen, leng):
+    # Detect if a collision between two pygame.Rects occured
+    def collision(self, hitbox):
+        return pygame.Rect.colliderect(self.hitbox, hitbox)
+
+    
+    # Calculate and set self center
+    def calcDist(self, other):
+        return (self.center - other.center).length()
+
+    # Update method used to return a direction vector
+    def update(self, other, worldWidth, worldHeight, deltaTime):
+
+        # Normalize and scale vector according to weight 
+        self.updateVelocity(self.velocity.scale(self.weight))
+
+        if deltaTime != 0:
+            self.updateVelocity(self.velocity.scale(deltaTime))
+        
+        # Boundary Force
+
+        # World clamping
+
+        # Left or Right
+        if (self.center + self.velocity).x > (worldWidth - self.size.x/2) or (self.center + self.velocity).x < 0 + self.size.x/2:
+            self.velocity.x *= -1
+
+        # Top of Bottom
+        if (self.center + self.velocity).y > (worldHeight - self.size.y/2) or (self.center + self.velocity).y < 0 + self.size.y/2:
+            self.velocity.y *= -1
 
         # Calculate new player position
-        self.position = self.position + dir
-        self.calcCenter()
+        self.position = self.position + self.velocity.scale(self.speed)
+        self.updateRect()
+        self.updateCenter()
+
+
+    # Draw Method to draw the agent
+    def draw(self, screen, leng):
+
 
         # Draw the player and their hitbox on screen
         pygame.draw.rect(screen, self.color, self.hitbox)
 
         # Only draw move vector line when vector is greater than 0
-        if dir.length() != 0:
-            entPt = dir.scale(leng)
+        if self.velocity.length() != 0:
+            entPt = self.velocity.scale(leng)
             pygame.draw.line(screen, Constants.MOVE_VECTOR_COLOR, (self.center.x, self.center.y),
                                                                  ((self.center.x + entPt.x), (self.center.y + entPt.y)), 2)
 
         # Draw line pointing to its current target
-        if self.focus != self and dir.length() != 0:
+        if self.focus != self and self.velocity.length() != 0:
             pygame.draw.line(screen, self.type, (self.center.x, self.center.y),
                                                      ((self.focus.center.x), (self.focus.center.y)), self.thick)
 
-    # Update method used to return a direction vector
-    def update(self, other, worldWidth, worldHeight):
-
-        # Normalize and scale vector
-        self.dir = self.dir.normalize()
-        self.dir = self.dir.scale(self.speed)
-
-        # Create the rectangle used for pygame
-        self.hitbox = pygame.Rect(self.center.x - self.size/2, self.center.y - self.size/2,  self.size, self.size)
-        
-        # World clamping
-        if (self.center + self.dir).x > (worldWidth - self.size/2) or (self.center + self.dir).x < 0 + self.size/2:
-            self.dir.x *= -1
-
-        if (self.center + self.dir).y > (worldHeight - self.size/2) or (self.center + self.dir).y < 0 + self.size/2:
-            self.dir.y *= -1
-
-        # Return scaled direction vector
-        return self.dir
-
-    # Calculate and set the objects center
-    def calcCenter(self):
-        self.center = Vector(self.position.x + self.size/2, self.position.y + self.size/2)
-
-    # Calculate and set self center
-    def calcDist(self, other):
-        return (self.center - other.center).length()
-
-    # Detect if a collision between two pygame.Rects occured
-    def collision(self, hitbox):
-        return pygame.Rect.colliderect(self.hitbox, hitbox)
 

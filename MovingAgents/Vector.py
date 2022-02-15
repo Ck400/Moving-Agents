@@ -20,7 +20,7 @@ class Vector:
     
     # Dot Product Method
     def dot(self, other):
-        return self.normalize().x * other.normalize().x + self.normalize().y * other.normalize().y
+        return float(self.normalize().x * other.normalize().x + self.normalize().y * other.normalize().y)
 
     # Scale Method
     def scale(self, scale):

@@ -29,7 +29,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MovingAgents.py" />
-    <Compile Include="Player.py" />
+    <Compile Include="Dog.py" />
     <Compile Include="Vector.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
