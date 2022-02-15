@@ -6,9 +6,9 @@ from Agent import *
 class Dog(Agent):
 
     # Called on initilization
-    def __init__(self, position, size, speed):
+    def __init__(self, position, size, speed, image):
 
-        super().__init__(position, size, speed)
+        super().__init__(position, size, speed, image)
 
         self.color = Constants.DOG_COLOR
         self.type = Constants.DOG_DIS_VECTOR_COLOR

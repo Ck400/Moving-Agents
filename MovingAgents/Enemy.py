@@ -7,9 +7,9 @@ from Agent import *
 class Enemy(Agent):
 
     # Called on initilization
-    def __init__(self, position, size, speed):
+    def __init__(self, position, size, speed, image):
 
-        super().__init__(position, size, speed)
+        super().__init__(position, size, speed, image)
         self.color = Constants.ENEMY_COLOR
         self.velocity = Vector(random.uniform(-1,1),random.uniform(-1,1))
         self.tagged = False

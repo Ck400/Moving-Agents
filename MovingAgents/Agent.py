@@ -8,7 +8,7 @@ from pygame.locals import *
 class Agent(object):
 
     # Called on initilization
-    def __init__(self, position, size, speed):
+    def __init__(self, position, size, speed, image):
 
         self.position = position
         self.size = size
@@ -17,8 +17,11 @@ class Agent(object):
         self.dir = (0,0)
         self.focus = self
         self.weight = 1
+        self.boundaryForces = []
         self.updateCenter()
         self.updateRect()
+        self.image = image
+        self.angle = 0
 
     # Overload string method to print out important agent characteristics
     def __str__(self):
@@ -31,7 +34,7 @@ class Agent(object):
         self.velocity = velocity.normalize()
 
     def updateRect(self):
-        self.hitbox = pygame.Rect(self.center.x - self.size.x/2, self.center.y - self.size.y/2,  self.size.x, self.size.y)
+        self.hitbox = pygame.Rect(self.position.x, self.position.y,  self.size.x, self.size.y)
 
     # Calculate and set the objects center
     def updateCenter(self):
@@ -57,6 +60,27 @@ class Agent(object):
             self.updateVelocity(self.velocity.scale(deltaTime))
         
         # Boundary Force
+        
+        # Right
+        if (self.center + self.velocity).x > worldWidth - Constants.BOUND_RADIUS:
+
+            self.boundaryForces.append(Vector(-1,0))
+
+        # Left 
+        elif (self.center + self.velocity).x < 0 + Constants.BOUND_RADIUS:
+
+            self.boundaryForces.append(Vector(1,0))
+
+        # Bottom
+        if (self.center + self.velocity).y > worldHeight - Constants.BOUND_RADIUS:
+
+            self.boundaryForces.append(Vector(0,1))
+
+        # Top
+        elif (self.center + self.velocity).y < 0 + Constants.BOUND_RADIUS:
+
+            self.boundaryForces.append(Vector(0,-1))
+
 
         # World clamping
 
@@ -79,7 +103,11 @@ class Agent(object):
 
 
         # Draw the player and their hitbox on screen
-        pygame.draw.rect(screen, self.color, self.hitbox)
+        pygame.draw.rect(screen, self.color, self.hitbox, 2)
+  
+        self.surf = pygame.transform.rotate(self.image, self.angle)
+        upperLeft = Vector((self.center.x + self.size.x/2) - self.surf.get_width(), (self.center.y + self.size.y/2) - self.surf.get_height())
+        screen.blit(self.surf,  [upperLeft.x, upperLeft.y])
 
         # Only draw move vector line when vector is greater than 0
         if self.velocity.length() != 0:
@@ -91,5 +119,6 @@ class Agent(object):
         if self.focus != self and self.velocity.length() != 0:
             pygame.draw.line(screen, self.type, (self.center.x, self.center.y),
                                                      ((self.focus.center.x), (self.focus.center.y)), self.thick)
+
 
 
